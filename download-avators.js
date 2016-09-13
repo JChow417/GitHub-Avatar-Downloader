@@ -1,7 +1,17 @@
-require('dotenv').config();
+var request = require("request");
+var fs = require("fs");
 
-var apiToken = process.env['GITHUB_API_TOKEN'];
-var request = require("request");var fs = require("fs");
+var apiToken = "";
+if (!fs.existsSync('.env')) {
+  console.log("Error: .env file missing, no API token used");
+} else {
+  //console.log('YES ENV');
+  require('dotenv').config();
+  var apiToken = process.env['GITHUB_API_TOKEN'];
+  if(apiToken === undefined) {
+    console.log("Error: Incorrect credentials in .env file, no API token used");
+  }
+}
 
 function getRepoContributors(repoOwner, repoName, cb) {
   var apiRoot = "http://api.github.com";
@@ -10,7 +20,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     url: apiRoot + "/repos/" + repoOwner + "/" + repoName + "/contributors",
     headers: {
       'User-Agent': 'download-avators.js',
-      'Authorization': 'token ' + apiToken,
+      //'Authorization': 'token ' + apiToken,
     },
     json :true
   };
