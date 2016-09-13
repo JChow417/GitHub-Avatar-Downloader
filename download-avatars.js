@@ -5,7 +5,7 @@ if(process.argv.length < 4) {
   console.log("Error: Not enough arguments entered");
 
 } else if (!fs.existsSync('.env')) {
-  console.log("Error: .env file missing");
+  console.log("Error: .env file missing, Please see Readme.txt");
 
 } else {
   var repoOwner = process.argv[2];
