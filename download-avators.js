@@ -3,7 +3,6 @@ require('dotenv').config();
 var apiToken = process.env['GITHUB_API_TOKEN'];
 var request = require("request");var fs = require("fs");
 
-
 function getRepoContributors(repoOwner, repoName, cb) {
   var apiRoot = "http://api.github.com";
   //var apiRoot = "https://jchow417:TOKEN@api.github.com";
@@ -22,7 +21,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
       throw(err);
       return;
     } else if (body.message === 'Not Found') {
-      console.log('Non-exiting owner/repo provided');
+      console.log('Error: Non-existing owner/repo provided');
       return;
     }
 
@@ -53,8 +52,8 @@ function downloadImageByURL(url, filePath) {
   });
 };
 
-if(process.argv.length !== 4) {
-  console.log("Incorrect number of arguments entered");
+if(process.argv.length < 4) {
+  console.log("Error: Not enough arguments entered");
 } else {
   var repoOwner = process.argv[2];
   var repoName = process.argv[3];
