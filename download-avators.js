@@ -10,7 +10,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     url: apiRoot + "/repos/" + repoOwner + "/" + repoName + "/contributors",
     headers: {
       'User-Agent': 'download-avators.js',
-      //'Authorization': 'token
+      //'Authorization': 'token TOKEN'
     },
     json :true
   };
