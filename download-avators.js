@@ -1,7 +1,8 @@
-var request = require("request");
-var fs = require("fs");
-var repoOwner = process.argv[2];
-var repoName = process.argv[3];
+require('dotenv').config();
+
+var apiToken = process.env['GITHUB_API_TOKEN'];
+var request = require("request");var fs = require("fs");
+
 
 function getRepoContributors(repoOwner, repoName, cb) {
   var apiRoot = "http://api.github.com";
@@ -10,7 +11,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     url: apiRoot + "/repos/" + repoOwner + "/" + repoName + "/contributors",
     headers: {
       'User-Agent': 'download-avators.js',
-      //'Authorization': 'token TOKEN'
+      'Authorization': 'token ' + apiToken,
     },
     json :true
   };
@@ -18,10 +19,10 @@ function getRepoContributors(repoOwner, repoName, cb) {
   request(options, function(err, response, body) {
     //console.log(body);
     if (err) {
-      console.log(err);
+      throw(err);
       return;
     } else if (body.message === 'Not Found') {
-      console.log('URL not found');
+      console.log('Non-exiting owner/repo provided');
       return;
     }
 
@@ -52,8 +53,15 @@ function downloadImageByURL(url, filePath) {
   });
 };
 
-getRepoContributors(repoOwner, repoName, function (err, result) {
-//   console.log("Errors:", err);
-//   console.log("Result:", result);
-});
+if(process.argv.length !== 4) {
+  console.log("Incorrect number of arguments entered");
+} else {
+  var repoOwner = process.argv[2];
+  var repoName = process.argv[3];
+  getRepoContributors(repoOwner, repoName, function (err, result) {
+  //   console.log("Errors:", err);
+  //   console.log("Result:", result);
+  });
+
+}
 
