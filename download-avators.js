@@ -1,7 +1,5 @@
 var request = require("request");
 var fs = require("fs");
-// var path = require('path');
-// var url = require('url');
 var repoOwner = process.argv[2];
 var repoName = process.argv[3];
 
@@ -12,7 +10,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     url: apiRoot + "/repos/" + repoOwner + "/" + repoName + "/contributors",
     headers: {
       'User-Agent': 'download-avators.js',
-      'Authorization': 'token 32ac5db9dbcfdc84e0911fbe3635a189b71b4909'
+      //'Authorization': 'token TOKEN'
     },
     json :true
   };
@@ -27,7 +25,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
       if (!fs.existsSync(dir)){
           fs.mkdirSync(dir);
       }
-      console.log(body);
+
       for(contributors in body) {
         var url = body[contributors]['avatar_url'];
         var login = body[contributors]['login']
@@ -52,4 +50,3 @@ getRepoContributors(repoOwner, repoName, function (err, result) {
 //   console.log("Result:", result);
 });
 
-//downloadImageByURL("https://avatars.githubusercontent.com/u/6914584?v=3", "avatar/temp" );
